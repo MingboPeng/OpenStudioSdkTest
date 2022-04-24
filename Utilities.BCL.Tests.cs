@@ -9,7 +9,16 @@ namespace OpenStudioTests
         [Test]
         public void MeasureTypeTest()
         {
-            var fullPath = Path.GetFullPath("./measures/IncreaseRoofRValue/");
+            // In Test mode, the path appears evaluated not from this file but from the bin dir which is 3 extra levels down
+            var testRoot = Path.GetDirectoryName(this.GetType().Assembly.Location);
+            string[] separatingStrings = { "OpenStudio.Tests" };
+            //D:\a\OpenStudio\OpenStudio\csharp\examples\OpenStudio.Tests\
+            var testProj = testRoot.Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries)[0];
+
+            // OpenStudio root folder
+            var projectRoot = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(testProj))));
+
+            var fullPath = Path.Combine(projectRoot, "measures/IncreaseRoofRValue/");
             System.Console.WriteLine(fullPath);
             var folderExist = Directory.Exists(fullPath);
             if (!folderExist)

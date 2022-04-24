@@ -46,14 +46,14 @@ jobs:
         run: |
           dotnet restore OpenStudio.Tests.csproj
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.linux-x64
-          dotnet test OpenStudio.Tests.csproj
+          dotnet test OpenStudio.Tests.csproj /p:Platform=x64
 
       - name: test nuget for Mac x64
         if: runner.os == 'macOS'
         run: |
           dotnet restore OpenStudio.Tests.csproj
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.macOS-x64
-          dotnet test OpenStudio.Tests.csproj
+          dotnet test OpenStudio.Tests.csproj /p:Platform=x64
           
 
 
