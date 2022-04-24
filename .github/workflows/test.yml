@@ -41,14 +41,14 @@ jobs:
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.win
           dotnet test OpenStudio.Tests.csproj /p:Platform=x86
 
-      - name: test nuget for Linux
+      - name: test nuget for Linux x64
         if: runner.os == 'Linux'
         run: |
           dotnet restore OpenStudio.Tests.csproj
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.linux-x64
           dotnet test OpenStudio.Tests.csproj
 
-      - name: Fix dylib and build nuget for Mac
+      - name: test nuget for Mac x64
         if: runner.os == 'macOS'
         run: |
           dotnet restore OpenStudio.Tests.csproj
