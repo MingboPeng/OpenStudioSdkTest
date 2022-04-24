@@ -4,7 +4,8 @@
     <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">NET48;NET5</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">NET5</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <Platforms>x86;x64</Platforms>
+    <Platforms Condition="'$(OS)' == 'Windows_NT'">x86;x64</Platforms>
+    <Platforms Condition="'$(OS)' != 'Windows_NT'">x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
