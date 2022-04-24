@@ -1,0 +1,62 @@
+name: test
+
+on: 
+  push:
+    branches: [ develop ]
+
+jobs:
+  build-csharp:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # fail-fast: Default is true, switch to false to allow one platform to fail and still run others
+      fail-fast: false
+      matrix:
+        name: [Ubuntu, macOS, Windows64, Windows32]
+        include:
+        - name: Ubuntu
+          os: ubuntu-18.04
+        - name: macOS
+          os: macos-10.15
+        - name: Windows64
+          os: windows-2019
+        - name: Windows32
+          os: windows-2019
+
+    steps:
+      - name: "Checkout develop Branch"
+        uses: actions/checkout@v2
+
+      - name: test nuget for Windows x64
+        if: matrix.name == 'Windows64'
+        run: |
+          dotnet restore OpenStudio.Tests.csproj
+          dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.win
+          dotnet test OpenStudio.Tests.csproj /p:Platform=x64
+
+      - name: test nuget for Windows x86
+        if: matrix.name == 'Windows32'
+        run: |
+          dotnet restore OpenStudio.Tests.csproj
+          dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.win
+          dotnet test OpenStudio.Tests.csproj /p:Platform=x86
+
+      - name: test nuget for Linux
+        if: runner.os == 'Linux'
+        run: |
+          dotnet restore OpenStudio.Tests.csproj
+          dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.linux-x64
+          dotnet test OpenStudio.Tests.csproj
+
+      - name: Fix dylib and build nuget for Mac
+        if: runner.os == 'macOS'
+        run: |
+          dotnet restore OpenStudio.Tests.csproj
+          dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.macOS-x64
+          dotnet test OpenStudio.Tests.csproj
+          
+
+
+
+        
+          
