@@ -15,13 +15,13 @@ jobs:
         name: [Ubuntu, macOS, Windows64, Windows32]
         include:
         - name: Ubuntu
-          os: ubuntu-18.04
+          os: ubuntu-latest
         - name: macOS
-          os: macos-10.15
+          os: macos-latest
         - name: Windows64
-          os: windows-2019
+          os: windows-latest
         - name: Windows32
-          os: windows-2019
+          os: windows-latest
 
     steps:
       - name: "Checkout develop Branch"
@@ -46,14 +46,14 @@ jobs:
         run: |
           dotnet restore OpenStudio.Tests.csproj
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.linux-x64
-          dotnet test OpenStudio.Tests.csproj /p:Platform=x64
+          dotnet test OpenStudio.Tests.csproj /p:Platform=x64 -f NET5
 
       - name: test nuget for Mac x64
         if: runner.os == 'macOS'
         run: |
           dotnet restore OpenStudio.Tests.csproj
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.macOS-x64
-          dotnet test OpenStudio.Tests.csproj /p:Platform=x64
+          dotnet test OpenStudio.Tests.csproj /p:Platform=x64 -f NET5
           
 
 
