@@ -18,22 +18,18 @@ jobs:
           os: ubuntu-latest
           platform: linux-x64
           arch: x64
-          framework: NET5
         - name: macOS
           os: macos-latest
           platform: macOS-x64
           arch: x64
-          framework: NET5
         - name: Windows64
           os: windows-latest
           platform: win
           arch: x64
-          framework: NET5
         - name: Windows32
           os: windows-latest
           platform: win
           arch: x86
-          framework: NET5
 
     steps:
       - uses: actions/checkout@v3
@@ -42,4 +38,4 @@ jobs:
         run: |
           dotnet restore OpenStudio.Tests.csproj
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.${{ matrix.platform }}
-          dotnet test OpenStudio.Tests.csproj /p:Platform=${{ matrix.arch }} -f ${{ matrix.framework }}
+          dotnet test OpenStudio.Tests.csproj --arch ${{ matrix.arch }}

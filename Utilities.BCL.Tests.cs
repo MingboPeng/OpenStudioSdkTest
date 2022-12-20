@@ -11,12 +11,11 @@ namespace OpenStudioTests
         {
             // In Test mode, the path appears evaluated not from this file but from the bin dir which is 3 extra levels down
             var testRoot = Path.GetDirectoryName(this.GetType().Assembly.Location);
-            string[] separatingStrings = { "OpenStudio.Tests" };
-            //D:\a\OpenStudio\OpenStudio\csharp\examples\OpenStudio.Tests\
-            var testProj = testRoot.Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries)[0];
+            string[] separatingStrings = { "bin" };
 
             // OpenStudio root folder
-            var projectRoot = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(testProj))));
+            var projectRoot = testRoot.Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries)[0];
+
 
             var fullPath = Path.Combine(projectRoot, "measures/IncreaseRoofRValue/");
             System.Console.WriteLine(fullPath);
