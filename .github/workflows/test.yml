@@ -35,7 +35,20 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: test nuget
+        if: matrix.name != 'Windows32'
         run: |
           dotnet restore OpenStudio.Tests.csproj
           dotnet add OpenStudio.Tests.csproj package NREL.OpenStudio.${{ matrix.platform }}
           dotnet test OpenStudio.Tests.csproj --arch ${{ matrix.arch }}
+
+      - name: test nuget x86
+        if: matrix.name == 'Windows32'
+        run: |
+          Invoke-WebRequest 'https://dotnetcli.azureedge.net/dotnet/Runtime/7.0.1/dotnet-runtime-7.0.1-win-x86.exe' -OutFile './dotnet-runtime-7.0.1-win-x86.exe'
+          ./dotnet-runtime-7.0.1-win-x86.exe /install /quiet /norestart
+          dotnet --info
+
+
+          dotnet restore OpenStudio.Tests.x86.csproj
+          dotnet add OpenStudio.Tests.x86.csproj package NREL.OpenStudio.${{ matrix.platform }}
+          dotnet test OpenStudio.Tests.x86.csproj --arch ${{ matrix.arch }}
